@@ -25,7 +25,7 @@ struct IntroPageItems: Identifiable {
 }
 
 
-let introItems: [IntroPageItems] = [
+let staticIntroItems: [IntroPageItems] = [
     .init(
         image: "calendar.circle.fill",
         title: "Track your daily habits",
