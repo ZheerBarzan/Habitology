@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct IntroPageView: View {
+    // MARK: - Properties
     @State private var selectedItem: IntroPageItems = staticIntroItems.first!
     @State private var introItems: [IntroPageItems] = staticIntroItems
     @State private var ActiveIndex: Int = 0
@@ -15,17 +16,18 @@ struct IntroPageView: View {
     @AppStorage("userName") var userName: String = ""
     var body: some View {
         VStack(spacing: 0) {
+            // back button
             Button{
                 UpdateItem(isForward: false)
             } label: {
                 Image(systemName: "chevron.left")
                     .font(.title)
-                    .foregroundColor(.white)
+                    .foregroundColor(.green)
                     .contentShape(.rect)
             }
             .padding(15)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .opacity(selectedItem.id != introItems.first!.id ? 1 : 0)
+            .opacity(selectedItem.id != introItems.first?.id ? 1 : 0)
             
             ZStack{
                 ForEach(introItems) { item in
@@ -37,9 +39,10 @@ struct IntroPageView: View {
             
             VStack(spacing: 6) {
                 HStack(spacing:4){
+                    // animated indicator
                     ForEach(introItems) { index in
                         Capsule()
-                            .fill(selectedItem.id == index.id ? Color.white : Color.black.opacity(0.5))
+                            .fill(selectedItem.id == index.id ? Color.primary : .gray)
                             .frame(width: selectedItem.id == index.id ? 20 : 8, height: 8)
                     }
                 }.padding(.bottom,15)
@@ -81,12 +84,13 @@ struct IntroPageView: View {
         let isSelected = selectedItem.id == item.id
         
         Image(systemName: item.image)
-            .font(.system(size: 60, design: .monospaced))
-            .foregroundStyle(.white.shadow(.drop(radius: 10)))
+            .font(.system(size: 80, design: .monospaced))
+            .foregroundStyle(.white.shadow(.drop(radius: 15)))
             .blendMode(.overlay)
             .frame(width: 120, height: 120)
+            .background(.green.gradient, in: .rect(cornerRadius:30))
             .background{
-                RoundedRectangle(cornerRadius: 15)
+                RoundedRectangle(cornerRadius: 30)
                     .fill(.background)
                     .shadow(color: .primary.opacity(0.2), radius: 1, x: 1, y: 1)
                     .shadow(color: .primary.opacity(0.2), radius: 1, x: -1, y: -1)
@@ -95,8 +99,8 @@ struct IntroPageView: View {
                 
             }
             .rotationEffect(.init(degrees: -item.rotation))
-            .scaleEffect(isSelected ? 1 : item.scale, anchor: item.anchor)
-            .offset(y: isSelected ? item.offset : item.extraOffset)
+            .scaleEffect(isSelected ? 1.1 : item.scale, anchor: item.anchor)
+            .offset(x: item.offset)
             .rotationEffect(.init(degrees: item.rotation))
             .zIndex(isSelected ? 2 : item.zIndex)
     }
@@ -107,23 +111,57 @@ struct IntroPageView: View {
         var fromIndex: Int
         var extraOffset: CGFloat
         
-        if isForward {
-            ActiveIndex += 1
-        } else {
-            ActiveIndex -= 1
-        }
         
-        if isForward {
-            fromIndex = ActiveIndex - 1
+        
+        isForward ? (ActiveIndex += 1) : (ActiveIndex -= 1)
+        
+        if isForward{
+             fromIndex = ActiveIndex - 1
             extraOffset = introItems[ActiveIndex].extraOffset
-        } else {
+
+        }else{
+            extraOffset = introItems[ActiveIndex].extraOffset
             fromIndex = ActiveIndex + 1
-            extraOffset = introItems[ActiveIndex].extraOffset
+        
         }
+
+        // resting z-index
         
         for index in introItems.indices {
             introItems[index].zIndex = 0
         }
+        
+        Task {[fromIndex, extraOffset] in
+            
+            
+            withAnimation(.bouncy(duration:1.5)){
+                introItems[fromIndex].scale = introItems[ActiveIndex].scale
+                introItems[fromIndex].offset = introItems[ActiveIndex].offset
+                introItems[fromIndex].rotation = introItems[ActiveIndex].rotation
+                introItems[fromIndex].anchor = introItems[ActiveIndex].anchor
+                
+                // to location is always at the center
+                
+                introItems[ActiveIndex].offset = extraOffset
+                
+                introItems[fromIndex].zIndex = 1
+            }
+            
+            try? await Task.sleep(for: .seconds(0.1))
+            withAnimation(.bouncy(duration: 1)){
+                introItems[ActiveIndex].scale = 1
+                introItems[ActiveIndex].offset = .zero
+                introItems[ActiveIndex].rotation = .zero
+                introItems[ActiveIndex].anchor = .center
+                
+                
+                
+                
+                selectedItem = introItems[ActiveIndex]
+                
+            }
+        }
+        
             
     }
         

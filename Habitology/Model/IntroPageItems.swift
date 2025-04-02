@@ -64,13 +64,4 @@ let staticIntroItems: [IntroPageItems] = [
         rotation: 250,
         extraOffset: -100,
         description: "measure your progress overtime and adujst your habits to achieve your goals."),
-    
-    
-    
-    
-    
-    
-    
-    
-    
 ]
