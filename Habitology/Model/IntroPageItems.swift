@@ -21,9 +21,7 @@ struct IntroPageItems: Identifiable {
     var extraOffset: CGFloat = -350
     var description: String
     
-    
 }
-
 
 let staticIntroItems: [IntroPageItems] = [
     .init(

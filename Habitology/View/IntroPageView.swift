@@ -78,6 +78,23 @@ struct IntroPageView: View {
             .frame(width: 300)
             .frame(maxHeight: .infinity)
         }
+        .ignoresSafeArea(.keyboard, edges: .all)
+        .overlay{
+            ZStack(alignment: .bottom) {
+                Rectangle()
+                    .fill(.black.opacity(askUserName ? 0.5 : 0))
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        askUserName = false
+                    }
+                
+                if askUserName {
+                    AskUserNameView()
+                        .transition(.move(edge: .bottom).combined(with: .offset(y: 100)))
+                }
+                
+            }.animation(.smooth, value: askUserName)
+        }
     }
     @ViewBuilder
     func AnimatedIconView(_ item: IntroPageItems) -> some View {
@@ -103,6 +120,41 @@ struct IntroPageView: View {
             .offset(x: item.offset)
             .rotationEffect(.init(degrees: item.rotation))
             .zIndex(isSelected ? 2 : item.zIndex)
+    }
+    
+    @ViewBuilder
+    func AskUserNameView() -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("What should we call you?")
+                .font(.title)
+                .foregroundStyle(.gray)
+            
+            TextField("Enter your name", text: $userName)
+                .applyPaddedBackground(10,hPadding: 15, vPadding: 12)
+                .opacityShadow(.black, opacity: 0.1, radius: 5)
+            
+            
+            
+            Button{
+                if !userName.isEmpty {
+                    askUserName.toggle()
+                }
+            } label: {
+                Text("Start tracking my habits")
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                    .contentTransition(.numericText())
+                    .hSpacing(.center)
+                    .padding(.vertical,12)
+                    .background(.green.gradient, in: .rect(cornerRadius: 10))
+                    
+            }
+            .disableWithOpacity(userName.isEmpty)
+            .padding(.top,10)
+        }
+        .applyPaddedBackground(12)
+        .padding(.horizontal,20)
+        .padding(.bottom, 10)
     }
     
     func UpdateItem(isForward: Bool) {
