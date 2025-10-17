@@ -27,7 +27,7 @@ let staticIntroItems: [IntroPageItems] = [
     .init(
         image: "calendar.circle.fill",
         title: "Track your daily habits",
-        description: "Habitology helps you track your daily habits and routines.\n It's easy to use and helps you stay on track with your goals."),
+        description: ""),
     .init(
         image: "checkmark.circle.fill",
         title: "Stay on track and maintain consistency",
