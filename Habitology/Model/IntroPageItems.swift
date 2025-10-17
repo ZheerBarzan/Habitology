@@ -19,7 +19,7 @@ struct IntroPageItems: Identifiable {
     var zIndex: CGFloat = 0
     
     var extraOffset: CGFloat = -350
-    var description: String
+    
     
 }
 
@@ -27,7 +27,7 @@ let staticIntroItems: [IntroPageItems] = [
     .init(
         image: "calendar.circle.fill",
         title: "Track your daily habits",
-        description: ""),
+       ),
     .init(
         image: "checkmark.circle.fill",
         title: "Stay on track and maintain consistency",
@@ -35,7 +35,7 @@ let staticIntroItems: [IntroPageItems] = [
         anchor: .topLeading,
         offset: -75,
         rotation: 30,
-        description: "Habitology lets you form new habits and maintain consistency by tracking your daily progress\n and reminding you to stay on track."),
+        ),
     .init(
         image: "star.circle.fill",
         title: "Achieve your goals",
@@ -43,7 +43,7 @@ let staticIntroItems: [IntroPageItems] = [
         anchor: .bottomLeading,
         offset: -65,
         rotation: -35,
-        description: "Celebrate milestones and stay motivated to achieve your goals."),
+        ),
     .init(
         image: "flame.circle.fill",
         title: "Stay motivated and inspired",
@@ -52,7 +52,7 @@ let staticIntroItems: [IntroPageItems] = [
         offset: -50,
         rotation: 160,
         extraOffset: -120,
-        description: "track streaks and see your imporvement over time."),
+        ),
     .init(
         image: "clock.circle.fill",
         title: "Save time and stay organized",
@@ -61,5 +61,5 @@ let staticIntroItems: [IntroPageItems] = [
         offset: -50,
         rotation: 250,
         extraOffset: -100,
-        description: "measure your progress overtime and adujst your habits to achieve your goals."),
+       ),
 ]

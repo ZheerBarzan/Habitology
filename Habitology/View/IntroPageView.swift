@@ -51,10 +51,7 @@ struct IntroPageView: View {
                     .font(.system(.title, design: .monospaced))
                     .contentTransition(.numericText())
                 
-                Text(selectedItem.description)
-                    .multilineTextAlignment(.center)
-                    .font(.system(.body, design: .monospaced))
-                    .contentTransition(.numericText())
+              
                     
                 
                 Button{
