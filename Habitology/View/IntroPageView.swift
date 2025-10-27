@@ -14,6 +14,7 @@ struct IntroPageView: View {
     @State private var ActiveIndex: Int = 0
     @State private var askUserName: Bool = false
     @AppStorage("userName") var userName: String = ""
+    @AppStorage("isIntroComplete") private var isIntroCompleted: Bool = false
     var body: some View {
         VStack(spacing: 0) {
             // back button
@@ -136,6 +137,8 @@ struct IntroPageView: View {
                 if !userName.isEmpty {
                     askUserName.toggle()
                 }
+                
+                isIntroCompleted = true
             } label: {
                 Text("Start tracking my habits")
                     .fontWeight(.semibold)
