@@ -16,7 +16,10 @@ struct ContentView: View {
             if isIntroCompleted{
                 HomeView().transition(.move(edge: .trailing))
             }else{
-                IntroPageView().transition(.move(edge: .leading))
+                NavigationStack{
+                    IntroPageView().transition(.move(edge: .leading))
+
+                }
             }
         }
         .animation(.snappy(duration: 0.3, extraBounce: 0), value: isIntroCompleted)
