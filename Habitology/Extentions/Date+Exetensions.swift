@@ -25,6 +25,17 @@ extension Date{
         return calendar.isDateInToday(self)
     }
     
+    
+    func format(_ format: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: self)
+    }
+    
+    static var startOffsetOfThisMonth: Int{
+        Calendar.current.component(.weekday, from: startDayOfThisMonth) - 1
+    }
+    
     static var startDayOfThisMonth: Date {
         let calender = Calendar.current
         guard let date = calender.date(from: calender.dateComponents([.year, .month], from: .now)) else{
@@ -35,7 +46,7 @@ extension Date{
     
     // Todo dates of this month
     
-    static var datesOfThisMonth: [Date] {
+    static var datesInThisMonth: [Date] {
         let calender = Calendar.current
         guard let range = calender.range(of: .day, in: .month, for: .now) else {
             fatalError("cannot retireve the dates of this month")
