@@ -34,4 +34,15 @@ extension Date{
     }
     
     // Todo dates of this month
+    
+    static var datesOfThisMonth: [Date] {
+        let calender = Calendar.current
+        guard let range = calender.range(of: .day, in: .month, for: .now) else {
+            fatalError("cannot retireve the dates of this month")
+        }
+        return range.compactMap{
+            calender.date(byAdding: .day, value: $0 - 1 , to: startDayOfThisMonth)
+            
+        }
+    }
 }
